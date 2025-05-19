@@ -3,37 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Your Fav Chatbot 👑</title>
+  <title>Your Fav Chatbot</title>
   <style>
-    /* Pink background with sparkling stars and feathers */
+    /* Pink background with sparkling stars */
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #ffc0cb 0%, #ffb6c1 100%);
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
+      background: pink;
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #3a0ca3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       position: relative;
     }
-    /* Sparkling stars */
-    body::before {
-      content: "✨✨✨✨✨";
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 2rem;
-      animation: sparkle 4s linear infinite;
+
+    /* Sparkling star effect */
+    .star {
+      position: fixed;
       color: white;
+      font-size: 1.2rem;
+      opacity: 0.8;
+      animation: twinkle 3s infinite alternate;
       user-select: none;
     }
-    @keyframes sparkle {
-      0%, 100% {opacity: 1;}
-      50% {opacity: 0.3;}
+    @keyframes twinkle {
+      0% { opacity: 0.3; }
+      100% { opacity: 1; }
     }
-    /* Feathers (using emoji) flying across */
+
+    /* Flying feather emojis */
+    .feather {
+      position: fixed;
+      font-size: 3.5rem; /* bigger feathers */
+      opacity: 0.9;
+      z-index: 5;
+      animation: featherFly 30s linear infinite;
+      user-select: none;
+      pointer-events: none;
+    }
     @keyframes featherFly {
       0% {
         transform: translateX(-10vw) translateY(100vh) rotate(0deg);
@@ -44,224 +54,122 @@
         opacity: 0;
       }
     }
-    .feather {
-      position: fixed;
-      font-size: 2rem;
-      animation: featherFly 20s linear infinite;
-      pointer-events: none;
-      top: 100vh;
-      left: -10vw;
-      user-select: none;
-    }
-    /* Multiple feathers with different delays */
-    .feather:nth-child(1) { animation-delay: 0s; top: 90vh; }
-    .feather:nth-child(2) { animation-delay: 7s; top: 85vh; font-size: 1.8rem; }
-    .feather:nth-child(3) { animation-delay: 14s; top: 80vh; font-size: 2.2rem; }
-    
-    /* Chat container */
+
+    /* Different animation delays for each feather */
+    .feather:nth-child(1) { animation-delay: 0s; top: 80vh; left: 5vw; }
+    .feather:nth-child(2) { animation-delay: 10s; top: 60vh; left: 15vw; }
+    .feather:nth-child(3) { animation-delay: 20s; top: 70vh; left: 25vw; }
+    .feather:nth-child(4) { animation-delay: 5s; top: 75vh; left: 35vw; }
+    .feather:nth-child(5) { animation-delay: 15s; top: 65vh; left: 45vw; }
+
+    /* Main container */
     .chat-container {
-      background: rgba(255, 255, 255, 0.9);
-      width: 350px;
-      max-height: 600px;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-      overflow: hidden;
-      position: relative;
       z-index: 10;
-    }
-    
-    /* Main heading */
-    #main-title {
+      width: 360px;
+      background: #fff0f6;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(58, 12, 163, 0.25);
+      padding: 20px;
       text-align: center;
-      font-size: 3.5rem;
+    }
+
+    /* Heading */
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
       font-weight: 900;
-      margin-bottom: 10px;
-      color: #d81b60;
-      user-select: none;
-      text-shadow: 0 0 8px #ff69b4;
+      color: #720026;
+      text-shadow: 1px 1px 5px #fff6fb;
     }
-    
-    /* Chat messages area */
-    #chat {
-      flex-grow: 1;
-      overflow-y: auto;
-      padding: 10px;
-      border: 2px solid #ff69b4;
-      border-radius: 15px;
-      background: white;
-      margin-bottom: 15px;
-    }
-    
-    /* Message styles */
-    .message {
-      margin-bottom: 12px;
-      padding: 10px 15px;
-      border-radius: 20px;
-      max-width: 80%;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeInUp 0.5s ease forwards;
-    }
-    .message.user {
-      background: #ffb6c1;
-      color: #4b0033;
-      align-self: flex-end;
-      border-bottom-right-radius: 5px;
-    }
-    .message.bot {
-      background: #fce4ec;
-      color: #880e4f;
-      align-self: flex-start;
-      border-bottom-left-radius: 5px;
-    }
-    
-    /* Fade in animation */
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    /* Input and button */
-    #userInput {
-      padding: 10px;
-      border-radius: 20px;
-      border: 2px solid #d81b60;
-      width: calc(100% - 90px);
-      font-size: 1rem;
+
+    /* Textbox */
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 1.3rem;
+      border-radius: 8px;
+      border: 2px solid #720026;
       outline: none;
-      box-sizing: border-box;
+      transition: border-color 0.3s ease;
     }
-    #sendBtn {
-      background-color: #d81b60;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 20px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-left: 10px;
-      transition: background-color 0.3s ease;
+    input[type="text"]:focus {
+      border-color: #d61a4d;
+      box-shadow: 0 0 8px #d61a4d;
     }
-    #sendBtn:hover {
-      background-color: #ad1457;
+
+    /* Chat output */
+    #chat-output {
+      margin-top: 15px;
+      min-height: 120px;
+      font-size: 1.1rem;
+      color: #3a0ca3;
+      font-weight: 600;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
-  
-  <div class="chat-container">
-    <h1 id="main-title">Your Fav Chatbot</h1>
-    <div id="chat"></div>
-    <div style="display: flex;">
-      <input type="text" id="userInput" placeholder="Speak your royal commands..." autocomplete="off" />
-      <button id="sendBtn">Send</button>
-    </div>
-  </div>
-  
+
+  <!-- Sparkling stars -->
+  <div class="star" style="top: 10vh; left: 20vw;">✨</div>
+  <div class="star" style="top: 30vh; left: 40vw;">⭐</div>
+  <div class="star" style="top: 50vh; left: 70vw;">🌟</div>
+  <div class="star" style="top: 20vh; left: 80vw;">✨</div>
+  <div class="star" style="top: 40vh; left: 90vw;">⭐</div>
+
   <!-- Flying feathers -->
   <div class="feather">🪶</div>
   <div class="feather">🪶</div>
   <div class="feather">🪶</div>
-  
-  <script>
-    const chat = document.getElementById('chat');
-    const input = document.getElementById('userInput');
-    const sendBtn = document.getElementById('sendBtn');
-    
-    // Append message with animation
-    function appendMessage(text, sender) {
-      const messageDiv = document.createElement('div');
-      messageDiv.classList.add('message', sender);
-      messageDiv.textContent = text;
-      chat.appendChild(messageDiv);
-      chat.scrollTop = chat.scrollHeight;
-    }
+  <div class="feather">🪶</div>
+  <div class="feather">🪶</div>
 
-    // Typing indicator functions
-    function showTypingIndicator() {
-      const typingDiv = document.createElement('div');
-      typingDiv.id = 'typing-indicator';
-      typingDiv.className = 'message bot';
-      typingDiv.textContent = 'Your Fav Chatbot is typing... 💻✨';
-      chat.appendChild(typingDiv);
-      chat.scrollTop = chat.scrollHeight;
-    }
-    function removeTypingIndicator() {
-      const typingDiv = document.getElementById('typing-indicator');
-      if (typingDiv) typingDiv.remove();
-    }
-    
-    // Chatbot response with random flair for greetings
-    function chatbotResponse(text) {
+  <!-- Chat container -->
+  <div class="chat-container">
+    <h1>Your Fav Chatbot</h1>
+    <input id="user-input" type="text" placeholder="Type your message here..." autofocus />
+    <div id="chat-output"></div>
+  </div>
+
+  <script>
+    const input = document.getElementById('user-input');
+    const output = document.getElementById('chat-output');
+
+    function chatbot_response(text) {
       text = text.toLowerCase();
 
-      const helloReplies = [
-        "Hello, Queen Ghaz! 👑 How can I rule the code world with you today?",
-        "Hey there, Your Majesty! Ready to conquer code?",
-        "Greetings, Queen! Let’s make some magic happen. ✨"
-      ];
-      
       if (text.includes('hello') || text.includes('hi')) {
-        return helloReplies[Math.floor(Math.random() * helloReplies.length)];
-      } 
-      else if (text.includes('how are you')) {
+        return "Hello, Queen Ghaz! 👑 How can I rule the code world with you today?";
+      } else if (text.includes('how are you')) {
         return "I'm serving 0s and 1s with style. And you, my queen?";
-      } 
-      else if (text.includes('what is your name')) {
-        return "I'm your loyal digital advisor—Your Fav Chatbot 💻👑";
-      } 
-      else if (text.includes('who created you')) {
+      } else if (text.includes('what is your name')) {
+        return "I'm your loyal digital advisor—QueenGhazBot 💻👑";
+      } else if (text.includes('who created you')) {
         return "I was born from the brilliance of Queen Ghaz herself 💅✨";
-      } 
-      else if (text.includes('love you')) {
+      } else if (text.includes('love you')) {
         return "Awww I love you too, Your Majesty! 💖";
-      } 
-      else if (text.includes('bye') || text.includes('goodbye')) {
+      } else if (text.includes('bye') || text.includes('goodbye')) {
         return "Goodbye, my queen. May your code always compile! 💻👑";
-      } 
-      else if (text.includes('what can you do')) {
+      } else if (text.includes('what can you do')) {
         return "I can chat, sass, and one day even run your AI empire. Just say the word!";
-      } 
-      else if (text.includes('thank you')) {
+      } else if (text.includes('thank you')) {
         return "You're welcome, my radiant ruler 🌟";
-      } 
-      else {
+      } else {
         return "Hmm... I don't know that yet, but I’m learning for you, Queen! 🧠✨";
       }
     }
 
-    // Send message flow
-    function sendMessage() {
-      const userMessage = input.value.trim();
-      if (!userMessage) return;
-
-      appendMessage(userMessage, 'user');
-      input.value = '';
-      input.focus();
-
-      showTypingIndicator();
-      setTimeout(() => {
-        removeTypingIndicator();
-        const botReply = chatbotResponse(userMessage);
-        appendMessage(botReply, 'bot');
-      }, 1200);
-    }
-
-    // Send message on button click or Enter key
-    sendBtn.addEventListener('click', sendMessage);
-    input.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        sendMessage();
+    input.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter' && input.value.trim() !== '') {
+        const userText = input.value.trim();
+        output.textContent = `You: ${userText}\nChatbot: ${chatbot_response(userText)}`;
+        input.value = '';
       }
     });
   </script>
+
 </body>
-</html
+</html>
 
 
 
