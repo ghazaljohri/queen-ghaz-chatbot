@@ -2,13 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GhazBot Chatbot</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Background & fonts */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(to right, #ffe6f0, #ffcce6);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Title */
+    #main-title {
+      text-align: center;
+      color: #c2185b;
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-shadow: 0 0 8px #ff69b4;
+      user-select: none;
+    }
+
+    /* Chat container */
+    .chat-container {
+      background: rgba(255, 255, 255, 0.8);
+      width: 90%;
+      max-width: 500px;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 192, 203, 0.5);
+      overflow-y: auto;
+      max-height: 60vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Messages */
+    .message {
+      margin: 10px 0;
+      padding: 12px 16px;
+      border-radius: 20px;
+      max-width: 80%;
+      word-wrap: break-word;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .user {
+      background: #ffb3d9;
+      color: white;
+      margin-left: auto;
+    }
+    .bot {
+      background: #ffe6f0;
+      color: #c2185b;
+      margin-right: auto;
+    }
+
+    /* Input and button */
+    #input-area {
+      display: flex;
+      margin-top: 10px;
+    }
+    #userInput {
+      flex: 1;
+      padding: 10px;
+      border-radius: 20px;
+      border: 2px solid #c2185b;
+      font-size: 1rem;
+      outline: none;
+    }
+    #sendBtn {
+      background-color: #c2185b;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-left: 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    #sendBtn:hover {
+      background-color: #e91e63;
+    }
+
+    /* Stars & feathers */
+    .star, .feather {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      opacity: 0.6;
+      background-size: contain;
+      background-repeat: no-repeat;
+      animation: float 10s linear infinite;
+      pointer-events: none;
+    }
+    .star {
+      background-image: url('https://i.imgur.com/1C5YQnT.png');
+    }
+    .feather {
+      background-image: url('https://i.imgur.com/F7aX2iI.png');
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Sparkle & Feather Decorations -->
+  <!-- Sparkles & feathers -->
   <div class="star" style="left: 10%; animation-delay: 0s;"></div>
   <div class="feather" style="left: 20%; animation-delay: 1s;"></div>
   <div class="star" style="left: 30%; animation-delay: 2s;"></div>
@@ -18,13 +133,71 @@
 
   <h1 id="main-title">GhazBot</h1>
 
-  <div class="chat-container">
-    <div id="chat"></div>
-    <input type="text" id="userInput" placeholder="Say something..." autofocus />
-    <button onclick="sendMessage()">Send</button>
+  <div class="chat-container" id="chat">
+    <!-- Chat messages will appear here -->
   </div>
 
-  <script src="script.js"></script>
+  <div id="input-area">
+    <input type="text" id="userInput" placeholder="Say something..." autofocus />
+    <button id="sendBtn">Send</button>
+  </div>
+
+  <script>
+    function chatbotResponse(text) {
+      text = text.toLowerCase();
+      if (text.includes("hello") || text.includes("hi")) {
+        return "Hello, Queen Ghaz! 👑 How can I rule the code world with you today?";
+      } else if (text.includes("how are you")) {
+        return "I'm serving 0s and 1s with style. And you, my queen?";
+      } else if (text.includes("your name")) {
+        return "I'm your loyal digital advisor—GhazBot 💻👑";
+      } else if (text.includes("who created you")) {
+        return "I was born from the brilliance of Queen Ghaz herself 💅✨";
+      } else if (text.includes("love you")) {
+        return "Awww I love you too, Your Majesty! 💖";
+      } else if (text.includes("bye") || text.includes("goodbye")) {
+        return "Goodbye, my queen. May your code always compile! 💻👑";
+      } else if (text.includes("what can you do")) {
+        return "I can chat, sass, and one day even run your AI empire. Just say the word!";
+      } else if (text.includes("thank you")) {
+        return "You're welcome, my radiant ruler 🌟";
+      } else {
+        return "Hmm... I don't know that yet, but I’m learning for you, Queen! 🧠✨";
+      }
+    }
+
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    function appendMessage(text, className) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'message ' + className;
+      msgDiv.textContent = text;
+      chat.appendChild(msgDiv);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function sendMessage() {
+      const userMessage = input.value.trim();
+      if (!userMessage) return;
+
+      appendMessage(userMessage, 'user');
+      const botReply = chatbotResponse(userMessage);
+      setTimeout(() => appendMessage(botReply, 'bot'), 500);
+
+      input.value = '';
+      input.focus();
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    input.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  </script>
+
 </body>
 </html>
 
