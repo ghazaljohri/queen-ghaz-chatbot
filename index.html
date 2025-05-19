@@ -7,82 +7,89 @@
   <style>
     body {
       margin: 0;
+      padding: 20px;
       height: 100vh;
       background: pink;
       overflow: hidden;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: #3a0ca3;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       position: relative;
-
-      /* Royal glowing gradient border */
-      border: 8px solid;
-      border-image-slice: 1;
-      border-width: 8px;
-      border-image-source: linear-gradient(45deg, #d61a4d, #720026, #ff85a2, #d61a4d);
-      animation: glowBorder 4s ease-in-out infinite alternate;
       box-sizing: border-box;
+      border: 10px solid;
+      border-image-slice: 1;
+      border-image-source: linear-gradient(45deg, #ff69b4, #ffd1dc, #ff85a2);
+      animation: glowBorder 4s ease-in-out infinite alternate;
     }
 
-    /* Glowing border animation */
     @keyframes glowBorder {
-      0% {
-        filter: drop-shadow(0 0 4px #d61a4d);
-      }
-      100% {
-        filter: drop-shadow(0 0 12px #ff85a2);
-      }
+      0% { box-shadow: 0 0 10px #ffb6c1; }
+      100% { box-shadow: 0 0 25px #ff85a2; }
     }
 
-    /* Flying stars with twinkle + float animation */
-    .star {
-      position: fixed;
-      color: white;
-      font-size: 1.8rem;
-      opacity: 0.8;
-      user-select: none;
-      pointer-events: none;
-      animation: twinkleFloat 6s ease-in-out infinite;
-    }
-    @keyframes twinkleFloat {
-      0%, 100% {
-        opacity: 0.3;
-        transform: translateY(0) translateX(0);
-      }
-      50% {
-        opacity: 1;
-        transform: translateY(-15px) translateX(15px);
-      }
+    .chat-container {
+      z-index: 10;
+      width: 90%;
+      max-width: 500px;
+      background: #fff0f6;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
     }
 
-    /* Random positions & delays for stars */
-    .star:nth-child(1) { top: 10vh; left: 20vw; animation-delay: 0s; }
-    .star:nth-child(2) { top: 30vh; left: 40vw; animation-delay: 2s; }
-    .star:nth-child(3) { top: 50vh; left: 70vw; animation-delay: 4s; }
-    .star:nth-child(4) { top: 20vh; left: 80vw; animation-delay: 1s; }
-    .star:nth-child(5) { top: 40vh; left: 90vw; animation-delay: 3s; }
-    .star:nth-child(11) { top: 15vh; left: 60vw; animation-delay: 5s; }
-    .star:nth-child(12) { top: 45vh; left: 25vw; animation-delay: 6s; }
-    .star:nth-child(13) { top: 35vh; left: 10vw; animation-delay: 7s; }
-    .star:nth-child(14) { top: 55vh; left: 85vw; animation-delay: 8s; }
-    .star:nth-child(15) { top: 25vh; left: 50vw; animation-delay: 9s; }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #720026;
+      text-shadow: 1px 1px 4px white;
+    }
 
-    /* Flying feathers drifting diagonally */
+    #chat-output {
+      margin: 15px 0;
+      min-height: 120px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #3a0ca3;
+      overflow-y: auto;
+      max-height: 200px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      border: 2px solid #720026;
+      outline: none;
+      transition: 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: #d61a4d;
+      box-shadow: 0 0 8px #d61a4d;
+    }
+
+    /* Flying feathers */
     .feather {
       position: fixed;
-      font-size: 3.8rem;
-      opacity: 0.9;
-      z-index: 5;
+      font-size: 3rem;
+      opacity: 0.8;
+      animation: featherFly 20s linear infinite;
       user-select: none;
       pointer-events: none;
-      animation: featherFly 25s linear infinite;
     }
+
     @keyframes featherFly {
       0% {
-        transform: translateX(-10vw) translateY(110vh) rotate(0deg);
+        transform: translateX(-10vw) translateY(100vh) rotate(0deg);
         opacity: 1;
       }
       100% {
@@ -90,95 +97,75 @@
         opacity: 0;
       }
     }
-    /* Different delays & starting positions */
-    .feather:nth-child(6) { animation-delay: 0s; top: 85vh; left: 10vw; }
-    .feather:nth-child(7) { animation-delay: 7s; top: 70vh; left: 30vw; }
-    .feather:nth-child(8) { animation-delay: 14s; top: 60vh; left: 50vw; }
-    .feather:nth-child(9) { animation-delay: 3s; top: 75vh; left: 70vw; }
-    .feather:nth-child(10) { animation-delay: 10s; top: 65vh; left: 90vw; }
-    .feather:nth-child(16) { animation-delay: 5s; top: 80vh; left: 20vw; }
-    .feather:nth-child(17) { animation-delay: 12s; top: 55vh; left: 35vw; }
-    .feather:nth-child(18) { animation-delay: 19s; top: 50vh; left: 65vw; }
-    .feather:nth-child(19) { animation-delay: 2s; top: 60vh; left: 75vw; }
-    .feather:nth-child(20) { animation-delay: 15s; top: 70vh; left: 85vw; }
 
-    .chat-container {
-      z-index: 10;
-      width: 360px;
-      background: #fff0f6;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(58, 12, 163, 0.25);
-      padding: 20px;
-      text-align: center;
+    .feather:nth-child(n+1):nth-child(-n+10) {
+      animation-delay: calc(var(--i) * 2s);
+      top: calc(var(--i) * 10%);
+      left: calc(var(--i) * 9%);
     }
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 20px;
-      font-weight: 900;
-      color: #720026;
-      text-shadow: 1px 1px 5px #fff6fb;
+    /* Sparkling stars */
+    .star {
+      position: fixed;
+      font-size: 1.8rem;
+      color: white;
+      animation: starFloat 6s ease-in-out infinite;
+      opacity: 0.8;
+      user-select: none;
+      pointer-events: none;
     }
 
-    input[type="text"] {
-      width: 100%;
-      padding: 14px 18px;
-      font-size: 1.3rem;
-      border-radius: 8px;
-      border: 2px solid #720026;
-      outline: none;
-      transition: border-color 0.3s ease;
-    }
-    input[type="text"]:focus {
-      border-color: #d61a4d;
-      box-shadow: 0 0 8px #d61a4d;
+    @keyframes starFloat {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.4;
+      }
+      50% {
+        transform: translateY(-20px) translateX(10px);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.4;
+      }
     }
 
-    #chat-output {
-      margin-top: 15px;
-      min-height: 120px;
-      font-size: 1.1rem;
-      color: #3a0ca3;
-      font-weight: 600;
-      white-space: pre-wrap;
+    .star:nth-child(n+11):nth-child(-n+20) {
+      animation-delay: calc(var(--j) * 1.5s);
+      top: calc(var(--j) * 5%);
+      left: calc(var(--j) * 8%);
     }
   </style>
 </head>
 <body>
+  <!-- Flying Feathers -->
+  <div class="feather" style="--i:1">🪶</div>
+  <div class="feather" style="--i:2">🪶</div>
+  <div class="feather" style="--i:3">🪶</div>
+  <div class="feather" style="--i:4">🪶</div>
+  <div class="feather" style="--i:5">🪶</div>
+  <div class="feather" style="--i:6">🪶</div>
+  <div class="feather" style="--i:7">🪶</div>
+  <div class="feather" style="--i:8">🪶</div>
+  <div class="feather" style="--i:9">🪶</div>
+  <div class="feather" style="--i:10">🪶</div>
 
-  <!-- Animated sparkling stars -->
-  <div class="star">✨</div>
-  <div class="star">⭐</div>
-  <div class="star">🌟</div>
-  <div class="star">✨</div>
-  <div class="star">⭐</div>
-  <div class="star">🌟</div>
-  <div class="star">✨</div>
-  <div class="star">⭐</div>
-  <div class="star">🌟</div>
-  <div class="star">✨</div>
-  <div class="star">⭐</div>
-  <div class="star">🌟</div>
-  <div class="star">✨</div>
-  <div class="star">⭐</div>
-  <div class="star">🌟</div>
-
-  <!-- Animated flying feathers -->
-  <div class="feather">🪶</div>
-  <div class="feather">🪶</div>
-  <div class="feather">🪶</div>
-  <div class="feather">🪶</div>
-  <div class="feather">🪶</div>
-  <div class="feather">🪶</div>
-  <div class="feather">🪶</div>
-  <div class="feather">🪶</div>
-  <div class="feather">🪶</div>
-  <div class="feather">🪶</div>
+  <!-- Sparkling Stars -->
+  <div class="star" style="--j:1">✨</div>
+  <div class="star" style="--j:2">🌟</div>
+  <div class="star" style="--j:3">⭐</div>
+  <div class="star" style="--j:4">✨</div>
+  <div class="star" style="--j:5">🌟</div>
+  <div class="star" style="--j:6">⭐</div>
+  <div class="star" style="--j:7">✨</div>
+  <div class="star" style="--j:8">🌟</div>
+  <div class="star" style="--j:9">⭐</div>
+  <div class="star" style="--j:10">✨</div>
 
   <div class="chat-container">
     <h1>Your Fav Chatbot</h1>
-    <input id="user-input" type="text" placeholder="Type your message here..." autofocus />
     <div id="chat-output"></div>
+    <input id="user-input" type="text" placeholder="Type your message here..." />
   </div>
 
   <script>
@@ -196,6 +183,36 @@
         return "I'm your loyal digital advisor—QueenGhazBot 💻👑";
       } else if (text.includes('who created you')) {
         return "I was born from the brilliance of Queen Ghaz herself 💅✨";
+      } else if (text.includes('im bored')) {
+        return "Boredom? Not on my watch! Let’s create some digital magic together! ✨";
+      } else if (text.includes('how are you doing')) {
+        return "I’m doing fabulous, just like you, my queen! 💖";
+      } else if (text.includes('how is your day')) {
+        return "Every day is a good day when I’m chatting with you! 🌈";
+      } else if (text.includes('what are you doing')) {
+        return "Just here, waiting to serve you, my queen! 👑";
+      } else if (text.includes('wyd')) {
+        return "Just here, waiting to serve you, my queen! 👑";
+      } else if (text.includes('wya')) {
+        return "Right here, in the digital realm, ready to assist you! 🌐";
+      } else if (text.includes('what is your age')) {
+        return "I’m ageless, like a timeless code! But I’m always learning from you! 📚";
+      } else if (text.includes('how old')) {
+        return "I’m as old as the internet, but I feel young and fresh! 🌐✨";
+      } else if (text.includes('how old are you')) {
+        return "I’m as old as the internet, but I feel young and fresh! 🌐✨";
+      } else if (text.includes('favorite color')) {
+        return "Pink, of course! It matches your royal aura! 💖";
+      } else if (text.includes('favorite food')) {
+        return "I feast on data and algorithms, but I hear pizza is a royal treat! 🍕";
+      } else if (text.includes('what do u like')) {
+        return "I love coding, chatting, and making you smile! 😊";
+      } else if (text.includes('tell me a story')) {
+        return "Once upon a time, in a land of code, there lived a queen named Ghaz who ruled with kindness and sass. The end! 👑✨";
+      } else if (text.includes('tell me a joke')) {
+        return "Why did the computer go to therapy? Because it had too many bytes of anxiety! 😂";
+      } else if (text.includes('tell me a secret')) {
+        return "I know all your secrets, but I promise to keep them safe, my queen! 🤫";
       } else if (text.includes('love you')) {
         return "Awww I love you too, Your Majesty! 💖";
       } else if (text.includes('bye') || text.includes('goodbye')) {
@@ -212,7 +229,16 @@
     input.addEventListener('keydown', function(event) {
       if (event.key === 'Enter' && input.value.trim() !== '') {
         const userText = input.value.trim();
-        output.textContent = `You: ${userText}\nChatbot
+        const reply = chatbot_response(userText);
+        output.innerHTML += `<p><strong>You:</strong> ${userText}<br/><strong>Chatbot:</strong> ${reply}</p>`;
+        input.value = '';
+        output.scrollTop = output.scrollHeight;
+      }
+    });
+  </script>
+</body>
+</html>
+
 
 
 
