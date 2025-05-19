@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Your Fav Chatbot</title>
   <style>
-    /* Pink background with sparkling stars */
     body {
       margin: 0;
       height: 100vh;
@@ -18,35 +17,72 @@
       align-items: center;
       justify-content: center;
       position: relative;
+
+      /* Royal glowing gradient border */
+      border: 8px solid;
+      border-image-slice: 1;
+      border-width: 8px;
+      border-image-source: linear-gradient(45deg, #d61a4d, #720026, #ff85a2, #d61a4d);
+      animation: glowBorder 4s ease-in-out infinite alternate;
+      box-sizing: border-box;
     }
 
-    /* Sparkling star effect */
+    /* Glowing border animation */
+    @keyframes glowBorder {
+      0% {
+        filter: drop-shadow(0 0 4px #d61a4d);
+      }
+      100% {
+        filter: drop-shadow(0 0 12px #ff85a2);
+      }
+    }
+
+    /* Flying stars with twinkle + float animation */
     .star {
       position: fixed;
       color: white;
-      font-size: 1.2rem;
+      font-size: 1.8rem;
       opacity: 0.8;
-      animation: twinkle 3s infinite alternate;
-      user-select: none;
-    }
-    @keyframes twinkle {
-      0% { opacity: 0.3; }
-      100% { opacity: 1; }
-    }
-
-    /* Flying feather emojis */
-    .feather {
-      position: fixed;
-      font-size: 3.5rem; /* bigger feathers */
-      opacity: 0.9;
-      z-index: 5;
-      animation: featherFly 30s linear infinite;
       user-select: none;
       pointer-events: none;
+      animation: twinkleFloat 6s ease-in-out infinite;
+    }
+    @keyframes twinkleFloat {
+      0%, 100% {
+        opacity: 0.3;
+        transform: translateY(0) translateX(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-15px) translateX(15px);
+      }
+    }
+
+    /* Random positions & delays for stars */
+    .star:nth-child(1) { top: 10vh; left: 20vw; animation-delay: 0s; }
+    .star:nth-child(2) { top: 30vh; left: 40vw; animation-delay: 2s; }
+    .star:nth-child(3) { top: 50vh; left: 70vw; animation-delay: 4s; }
+    .star:nth-child(4) { top: 20vh; left: 80vw; animation-delay: 1s; }
+    .star:nth-child(5) { top: 40vh; left: 90vw; animation-delay: 3s; }
+    .star:nth-child(11) { top: 15vh; left: 60vw; animation-delay: 5s; }
+    .star:nth-child(12) { top: 45vh; left: 25vw; animation-delay: 6s; }
+    .star:nth-child(13) { top: 35vh; left: 10vw; animation-delay: 7s; }
+    .star:nth-child(14) { top: 55vh; left: 85vw; animation-delay: 8s; }
+    .star:nth-child(15) { top: 25vh; left: 50vw; animation-delay: 9s; }
+
+    /* Flying feathers drifting diagonally */
+    .feather {
+      position: fixed;
+      font-size: 3.8rem;
+      opacity: 0.9;
+      z-index: 5;
+      user-select: none;
+      pointer-events: none;
+      animation: featherFly 25s linear infinite;
     }
     @keyframes featherFly {
       0% {
-        transform: translateX(-10vw) translateY(100vh) rotate(0deg);
+        transform: translateX(-10vw) translateY(110vh) rotate(0deg);
         opacity: 1;
       }
       100% {
@@ -54,15 +90,18 @@
         opacity: 0;
       }
     }
+    /* Different delays & starting positions */
+    .feather:nth-child(6) { animation-delay: 0s; top: 85vh; left: 10vw; }
+    .feather:nth-child(7) { animation-delay: 7s; top: 70vh; left: 30vw; }
+    .feather:nth-child(8) { animation-delay: 14s; top: 60vh; left: 50vw; }
+    .feather:nth-child(9) { animation-delay: 3s; top: 75vh; left: 70vw; }
+    .feather:nth-child(10) { animation-delay: 10s; top: 65vh; left: 90vw; }
+    .feather:nth-child(16) { animation-delay: 5s; top: 80vh; left: 20vw; }
+    .feather:nth-child(17) { animation-delay: 12s; top: 55vh; left: 35vw; }
+    .feather:nth-child(18) { animation-delay: 19s; top: 50vh; left: 65vw; }
+    .feather:nth-child(19) { animation-delay: 2s; top: 60vh; left: 75vw; }
+    .feather:nth-child(20) { animation-delay: 15s; top: 70vh; left: 85vw; }
 
-    /* Different animation delays for each feather */
-    .feather:nth-child(1) { animation-delay: 0s; top: 80vh; left: 5vw; }
-    .feather:nth-child(2) { animation-delay: 10s; top: 60vh; left: 15vw; }
-    .feather:nth-child(3) { animation-delay: 20s; top: 70vh; left: 25vw; }
-    .feather:nth-child(4) { animation-delay: 5s; top: 75vh; left: 35vw; }
-    .feather:nth-child(5) { animation-delay: 15s; top: 65vh; left: 45vw; }
-
-    /* Main container */
     .chat-container {
       z-index: 10;
       width: 360px;
@@ -73,7 +112,6 @@
       text-align: center;
     }
 
-    /* Heading */
     h1 {
       font-size: 3rem;
       margin-bottom: 20px;
@@ -82,7 +120,6 @@
       text-shadow: 1px 1px 5px #fff6fb;
     }
 
-    /* Textbox */
     input[type="text"] {
       width: 100%;
       padding: 14px 18px;
@@ -97,7 +134,6 @@
       box-shadow: 0 0 8px #d61a4d;
     }
 
-    /* Chat output */
     #chat-output {
       margin-top: 15px;
       min-height: 120px;
@@ -110,21 +146,35 @@
 </head>
 <body>
 
-  <!-- Sparkling stars -->
-  <div class="star" style="top: 10vh; left: 20vw;">✨</div>
-  <div class="star" style="top: 30vh; left: 40vw;">⭐</div>
-  <div class="star" style="top: 50vh; left: 70vw;">🌟</div>
-  <div class="star" style="top: 20vh; left: 80vw;">✨</div>
-  <div class="star" style="top: 40vh; left: 90vw;">⭐</div>
+  <!-- Animated sparkling stars -->
+  <div class="star">✨</div>
+  <div class="star">⭐</div>
+  <div class="star">🌟</div>
+  <div class="star">✨</div>
+  <div class="star">⭐</div>
+  <div class="star">🌟</div>
+  <div class="star">✨</div>
+  <div class="star">⭐</div>
+  <div class="star">🌟</div>
+  <div class="star">✨</div>
+  <div class="star">⭐</div>
+  <div class="star">🌟</div>
+  <div class="star">✨</div>
+  <div class="star">⭐</div>
+  <div class="star">🌟</div>
 
-  <!-- Flying feathers -->
+  <!-- Animated flying feathers -->
+  <div class="feather">🪶</div>
+  <div class="feather">🪶</div>
+  <div class="feather">🪶</div>
+  <div class="feather">🪶</div>
+  <div class="feather">🪶</div>
   <div class="feather">🪶</div>
   <div class="feather">🪶</div>
   <div class="feather">🪶</div>
   <div class="feather">🪶</div>
   <div class="feather">🪶</div>
 
-  <!-- Chat container -->
   <div class="chat-container">
     <h1>Your Fav Chatbot</h1>
     <input id="user-input" type="text" placeholder="Type your message here..." autofocus />
@@ -162,14 +212,8 @@
     input.addEventListener('keydown', function(event) {
       if (event.key === 'Enter' && input.value.trim() !== '') {
         const userText = input.value.trim();
-        output.textContent = `You: ${userText}\nChatbot: ${chatbot_response(userText)}`;
-        input.value = '';
-      }
-    });
-  </script>
+        output.textContent = `You: ${userText}\nChatbot
 
-</body>
-</html>
 
 
 
